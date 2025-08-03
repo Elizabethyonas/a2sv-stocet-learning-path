@@ -14,5 +14,13 @@ func SetupRouter() *gin.Engine {
 	equityController := controllers.NewEquityController(equityUsecase)
 	r.GET("/api/equities", equityController.GetEquities)
 
+	bondUsecase := usecase.NewBondUsecase()
+	bondController := controllers.NewBondController(bondUsecase)
+
+	api := r.Group("/api/bonds")
+	{
+		api.GET("/search", bondController.SearchBonds)
+	}
+
 	return r
 }
