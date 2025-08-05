@@ -33,5 +33,13 @@ func SetupRouter() *gin.Engine {
 		api.GET("/:id", cmspController.GetByID)
 	}
 
+	portfolioUsecase := usecase.NewPortfolioUsecase()
+	portfolioController := controllers.NewPortfolioController(portfolioUsecase)
+
+	api = r.Group("/api")
+	{
+		api.POST("/portfolio/recommend", portfolioController.Recommend)
+	}
+
 	return r
 }
