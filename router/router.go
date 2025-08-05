@@ -1,9 +1,10 @@
 package router
 
 import (
-	"github.com/gin-gonic/gin"
 	"a2sv_stocet_learning_path/api/controllers"
 	"a2sv_stocet_learning_path/internal/application/usecase"
+
+	"github.com/gin-gonic/gin"
 )
 
 func SetupRouter() *gin.Engine {
@@ -20,6 +21,16 @@ func SetupRouter() *gin.Engine {
 	api := r.Group("/api/bonds")
 	{
 		api.GET("/search", bondController.SearchBonds)
+	}
+
+	// CMSP
+	cmspUsecase := usecase.NewCMSPUsecase()
+	cmspController := controllers.NewCMSPController(cmspUsecase)
+
+	api = r.Group("/api/cmsps")
+	{
+		api.GET("", cmspController.GetAll)
+		api.GET("/:id", cmspController.GetByID)
 	}
 
 	return r
