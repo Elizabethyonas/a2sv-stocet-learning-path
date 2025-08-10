@@ -3,6 +3,7 @@ package router
 import (
 	"a2sv_stocet_learning_path/api/controllers"
 	"a2sv_stocet_learning_path/internal/application/usecase"
+	usecaseImpl "a2sv_stocet_learning_path/internal/application/usecase"
 
 	"github.com/gin-gonic/gin"
 )
@@ -40,6 +41,14 @@ func SetupRouter() *gin.Engine {
 	{
 		api.POST("/portfolio/recommend", portfolioController.Recommend)
 	}
+
+	econUsecase := usecaseImpl.NewEconUsecase()
+	econController := controllers.NewEconController(econUsecase)
+	api = r.Group("/api")
+	{
+		api.GET("/economic/indicators", econController.GetIndicators)
+	}
+
 
 	return r
 }
